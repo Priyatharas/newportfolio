@@ -1,0 +1,58 @@
+let displayValue = '';
+let currentOperator = null;
+let previousValue = '';
+
+function appendValue(value) {
+  displayValue += value;
+  updateDisplay();
+}
+
+function operate(operator) {
+  if (displayValue === '') return;
+
+  if (currentOperator !== null) {
+    calculate();
+  }
+
+  currentOperator = operator;
+  previousValue = displayValue;
+  displayValue = '';
+}
+
+function calculate() {
+  if (currentOperator === null || displayValue === '') return;
+
+  const prev = parseFloat(previousValue);
+  const current = parseFloat(displayValue);
+
+  switch (currentOperator) {
+    case '+':
+      displayValue = prev + current;
+      break;
+    case '-':
+      displayValue = prev - current;
+      break;
+    case '*':
+      displayValue = prev * current;
+      break;
+    case '/':
+      displayValue = current === 0 ? 'Error' : prev / current;
+      break;
+  }
+
+  currentOperator = null;
+  previousValue = '';
+  updateDisplay();
+}
+
+function clearDisplay() {
+  displayValue = '';
+  currentOperator = null;
+  previousValue = '';
+  updateDisplay();
+}
+
+function updateDisplay() {
+  const display = document.getElementById('display');
+  display.textContent = displayValue || '0';
+}
